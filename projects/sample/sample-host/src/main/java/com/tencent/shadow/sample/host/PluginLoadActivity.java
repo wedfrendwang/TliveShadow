@@ -19,6 +19,7 @@
 package com.tencent.shadow.sample.host;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -26,6 +27,8 @@ import android.view.ViewGroup;
 
 import com.tencent.shadow.dynamic.host.EnterCallback;
 import com.tencent.shadow.sample.constant.Constant;
+
+import dalvik.system.BaseDexClassLoader;
 
 
 public class PluginLoadActivity extends Activity {
@@ -79,6 +82,13 @@ public class PluginLoadActivity extends Activity {
                             public void onEnterComplete() {
 
                             }
+
+                            @Override
+                            public void onPluginClassLoad(BaseDexClassLoader classLoader, Context contextPlugin) {
+
+                            }
+
+
                         });
             }
         });

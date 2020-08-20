@@ -18,13 +18,35 @@
 
 package com.tencent.shadow.dynamic.host;
 
+import android.content.Context;
 import android.view.View;
 
+import dalvik.system.BaseDexClassLoader;
+
+/**
+ * 与宿主间通信接口
+ */
 public interface EnterCallback {
 
+    /*
+    插件加载过渡接口，展示加载过程VIEW
+     */
     void onShowLoadingView(View view);
 
+    /*
+    关闭加载View
+     */
     void onCloseLoadingView();
 
+    /*
+    插件加载完成
+     */
     void onEnterComplete();
+
+    /*
+    加载插件
+    classLoader：加载插件classLoader
+    contextPlugin：插件context
+     */
+    void onPluginClassLoad(BaseDexClassLoader classLoader, Context contextPlugin);
 }

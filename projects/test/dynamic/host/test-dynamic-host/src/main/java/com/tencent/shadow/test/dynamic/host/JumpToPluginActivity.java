@@ -19,11 +19,14 @@
 package com.tencent.shadow.test.dynamic.host;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
 import com.tencent.shadow.dynamic.host.EnterCallback;
 import com.tencent.shadow.test.lib.constant.Constant;
+
+import dalvik.system.BaseDexClassLoader;
 
 public class JumpToPluginActivity extends Activity {
 
@@ -60,6 +63,13 @@ public class JumpToPluginActivity extends Activity {
                     public void onEnterComplete() {
 
                     }
+
+                    @Override
+                    public void onPluginClassLoad(BaseDexClassLoader classLoader, Context contextPlugin) {
+
+                    }
+
+
                 });
 
     }
