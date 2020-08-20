@@ -34,6 +34,8 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import dalvik.system.BaseDexClassLoader;
+
 import static com.tencent.shadow.dynamic.host.FailedException.ERROR_CODE_FILE_NOT_FOUND_EXCEPTION;
 import static com.tencent.shadow.dynamic.host.FailedException.ERROR_CODE_RELOAD_LOADER_EXCEPTION;
 import static com.tencent.shadow.dynamic.host.FailedException.ERROR_CODE_RELOAD_RUNTIME_EXCEPTION;
@@ -223,6 +225,14 @@ public class PluginProcessService extends Service {
             mPluginLoader.setUuidManager(uuidManager);
         }
     }
+
+    /*
+    add: 获取加载插件classloader
+     */
+    public BaseDexClassLoader getPluginClassLoader() {
+        return mPluginLoader.getPluginClassLoader();
+    }
+
 
     void exit() {
         if (mLogger.isInfoEnabled()) {

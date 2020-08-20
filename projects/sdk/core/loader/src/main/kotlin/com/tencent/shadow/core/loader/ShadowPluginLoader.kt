@@ -26,6 +26,8 @@ import com.tencent.shadow.core.common.InstalledApk
 import com.tencent.shadow.core.common.LoggerFactory
 import com.tencent.shadow.core.load_parameters.LoadParameters
 import com.tencent.shadow.core.loader.blocs.LoadPluginBloc
+import com.tencent.shadow.core.loader.blocs.LoadPluginBloc.pluginClassLoader
+import com.tencent.shadow.core.loader.classloaders.PluginClassLoader
 import com.tencent.shadow.core.loader.delegates.DI
 import com.tencent.shadow.core.loader.delegates.ShadowActivityDelegate
 import com.tencent.shadow.core.loader.delegates.ShadowContentProviderDelegate
@@ -176,6 +178,16 @@ abstract class ShadowPluginLoader(hostAppContext: Context) : DelegateProvider, D
                 loadParameters,
                 mShadowRemoteViewCreatorProvider)
     }
+
+    // 获取加载插件的classLoader
+    fun getLoadPluginClassLoader(): PluginClassLoader? {
+        return  pluginClassLoader
+    }
+
+    fun getLoadPluginContext():Context?{
+        return mHostAppContext;
+    }
+
 
     override fun getHostActivityDelegate(aClass: Class<out HostActivityDelegator>): HostActivityDelegate {
         return ShadowActivityDelegate(this)

@@ -20,6 +20,14 @@ package com.tencent.shadow.dynamic.host;
 
 import android.os.IBinder;
 
+import dalvik.system.BaseDexClassLoader;
+
+
 public interface PluginLoaderImpl extends IBinder {
     void setUuidManager(UuidManager uuidManager);
+
+    BaseDexClassLoader getPluginClassLoader();
+
+
+
 }
