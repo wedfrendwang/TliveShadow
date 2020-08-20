@@ -41,6 +41,7 @@ import com.tencent.shadow.dynamic.host.FailedException;
 import com.tencent.shadow.dynamic.host.NotFoundException;
 import com.tencent.shadow.dynamic.host.PluginManagerImpl;
 import com.tencent.shadow.dynamic.host.PluginProcessService;
+import com.tencent.shadow.dynamic.host.PpsBinder;
 import com.tencent.shadow.dynamic.host.PpsController;
 import com.tencent.shadow.dynamic.host.PpsStatus;
 import com.tencent.shadow.dynamic.loader.PluginLoader;
@@ -50,6 +51,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+
+import dalvik.system.BaseDexClassLoader;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 
@@ -81,6 +84,11 @@ public abstract class PluginManagerThatUseDynamicLoader extends BasePluginManage
      */
     private AtomicReference<CountDownLatch> mConnectCountDownLatch = new AtomicReference<>();
 
+
+    /**
+     * WXB:合并为一个进程时，可以获取当前service对象
+     */
+    private PluginProcessService ppsServices;
     /**
      * 启动PluginProcessService
      *
@@ -115,6 +123,11 @@ public abstract class PluginManagerThatUseDynamicLoader extends BasePluginManage
                             mLogger.info("onServiceConnected connectCountDownLatch:" + mConnectCountDownLatch);
                         }
                         mServiceConnecting.set(false);
+                        try {
+                            ppsServices = ((PpsBinder) service).getPluginProcessService();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         mPpsController = PluginProcessService.wrapBinder(service);
                         try {
                             mPpsController.setUuidManager(new UuidManagerBinder(PluginManagerThatUseDynamicLoader.this));
@@ -220,6 +233,7 @@ public abstract class PluginManagerThatUseDynamicLoader extends BasePluginManage
     }
 
 
+
     /**
      * PluginManager对象创建的时候回调
      *
@@ -311,4 +325,14 @@ public abstract class PluginManagerThatUseDynamicLoader extends BasePluginManage
     public InstalledApk getRuntime(String uuid) throws FailedException, NotFoundException {
         return getInstalledPL(uuid, InstalledType.TYPE_PLUGIN_RUNTIME);
     }
+
+    public BaseDexClassLoader getPluginClassLoader(){
+        if(ppsServices != null){
+            return ppsServices.getPluginClassLoader();
+        }else{
+            return null;
+        }
+    }
+
+
 }

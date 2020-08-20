@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import com.tencent.shadow.core.common.InstalledApk
 import com.tencent.shadow.core.load_parameters.LoadParameters
+import com.tencent.shadow.core.loader.classloaders.PluginClassLoader
 import com.tencent.shadow.core.loader.exceptions.LoadPluginException
 import com.tencent.shadow.core.loader.infos.PluginParts
 import com.tencent.shadow.core.loader.managers.CommonPluginPackageManager
@@ -38,6 +39,7 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
 object LoadPluginBloc {
+    var pluginClassLoader : PluginClassLoader? = null
     @Throws(LoadPluginException::class)
     fun loadPlugin(
             executorService: ExecutorService,
@@ -87,13 +89,13 @@ object LoadPluginBloc {
             })
 
             val buildApplication = executorService.submit(Callable {
-                val pluginClassLoader = buildClassLoader.get()
+                pluginClassLoader = buildClassLoader.get()
                 val pluginPackageManager = buildPackageManager.get()
                 val resources = buildResources.get()
                 val pluginInfo = pluginPackageManager.pluginInfo
 
                 CreateApplicationBloc.createShadowApplication(
-                        pluginClassLoader,
+                        pluginClassLoader!!,
                         pluginInfo.applicationClassName,
                         pluginPackageManager,
                         resources,

@@ -122,6 +122,7 @@ public abstract class FastPluginManager extends PluginManagerThatUseDynamicLoade
         if (isCall == null || !isCall) {
             mPluginLoader.callApplicationOnCreate(partKey);
         }
+        // TODO : 合并为一个进程可以由该类获取插件classLoader ： {@link com.tencent.shadow.dynamic.manager.PluginManagerThatUseDynamicLoader#getPluginClassLoader}
         return mPluginLoader.convertActivityIntent(pluginIntent);
     }
 

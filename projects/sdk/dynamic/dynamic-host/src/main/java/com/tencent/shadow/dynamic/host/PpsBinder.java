@@ -23,7 +23,7 @@ import android.os.Parcel;
 
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 
-class PpsBinder extends android.os.Binder {
+public class PpsBinder extends android.os.Binder {
     static final String DESCRIPTOR = PpsBinder.class.getName();
 
     static final int TRANSACTION_CODE_NO_EXCEPTION = 0;
@@ -40,6 +40,10 @@ class PpsBinder extends android.os.Binder {
 
     PpsBinder(PluginProcessService pps) {
         mPps = pps;
+    }
+
+    public PluginProcessService getPluginProcessService(){
+        return mPps;
     }
 
     @Override

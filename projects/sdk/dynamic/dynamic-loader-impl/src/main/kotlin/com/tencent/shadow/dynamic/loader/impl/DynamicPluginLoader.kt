@@ -26,12 +26,14 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import com.tencent.shadow.core.loader.ShadowPluginLoader
+import com.tencent.shadow.core.loader.blocs.LoadPluginBloc
+import com.tencent.shadow.core.loader.classloaders.PluginClassLoader
 import com.tencent.shadow.core.runtime.container.ContentProviderDelegateProviderHolder
 import com.tencent.shadow.core.runtime.container.DelegateProviderHolder
 import com.tencent.shadow.dynamic.host.UuidManager
 import java.util.concurrent.CountDownLatch
 
-internal class DynamicPluginLoader(hostContext: Context, uuid: String) {
+class DynamicPluginLoader(hostContext: Context, uuid: String) {
     companion object {
         private const val CORE_LOADER_FACTORY_IMPL_NAME =
                 "com.tencent.shadow.dynamic.loader.impl.CoreLoaderFactoryImpl"
@@ -90,6 +92,16 @@ internal class DynamicPluginLoader(hostContext: Context, uuid: String) {
         }
         return loadPlugins
     }
+
+    // 获取加载插件的classLoader
+    fun getLoadPluginClassLoader(): PluginClassLoader? {
+        return  mPluginLoader.getLoadPluginClassLoader()
+    }
+
+    fun getLoadPluginContext():Context?{
+        return mPluginLoader.getLoadPluginContext()
+    }
+
 
     @Synchronized
     fun callApplicationOnCreate(partKey: String) {

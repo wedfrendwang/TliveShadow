@@ -19,13 +19,18 @@
 package com.tencent.shadow.dynamic.loader.impl
 
 import android.os.IBinder
+import com.tencent.shadow.core.loader.classloaders.PluginClassLoader
 import com.tencent.shadow.dynamic.host.PluginLoaderImpl
 import com.tencent.shadow.dynamic.host.UuidManager
 import com.tencent.shadow.dynamic.loader.PluginLoader
 
-internal class PluginLoaderBinder(private val mDynamicPluginLoader: DynamicPluginLoader) : android.os.Binder(), PluginLoaderImpl {
+class PluginLoaderBinder(private val mDynamicPluginLoader: DynamicPluginLoader) : android.os.Binder(), PluginLoaderImpl {
     override fun setUuidManager(uuidManager: UuidManager?) {
         mDynamicPluginLoader.setUuidManager(uuidManager)
+    }
+
+    override fun getPluginClassLoader(): PluginClassLoader? {
+        return mDynamicPluginLoader.getLoadPluginClassLoader()
     }
 
     @Throws(android.os.RemoteException::class)

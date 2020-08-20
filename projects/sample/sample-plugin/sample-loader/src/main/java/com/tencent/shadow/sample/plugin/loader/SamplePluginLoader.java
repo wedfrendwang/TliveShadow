@@ -55,6 +55,9 @@ public class SamplePluginLoader extends ShadowPluginLoader {
         };
     }
 
+    /*
+    WANGXIAOBO: 从整体代码来看，当前这个abi路径失去作用对于当前项目
+     */
     @Override
     public String getMAbi() {
         return "";
