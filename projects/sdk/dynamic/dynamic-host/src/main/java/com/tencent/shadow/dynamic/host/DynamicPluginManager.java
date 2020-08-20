@@ -68,7 +68,7 @@ public final class DynamicPluginManager implements PluginManager {
             mLogger.info("mLastModified != lastModified : " + (mLastModified != lastModified));
         }
         if (mLastModified != lastModified) {
-            ManagerImplLoader implLoader = new ManagerImplLoader(context, latestManagerImplApk);
+            ManagerImplLoader implLoader = new ManagerImplLoader(context, latestManagerImplApk,"lib/armeabi/");
             PluginManagerImpl newImpl = implLoader.load();
             Bundle state;
             if (mManagerImpl != null) {
